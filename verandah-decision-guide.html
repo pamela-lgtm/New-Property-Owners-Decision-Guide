@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Property Owner's Decision Guide | Verandah Properties</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal: #008C82;
+    --teal-light: #e6f4f3;
+    --teal-dark: #006960;
+    --gold: #D4AF50;
+    --gold-light: #faf4e1;
+    --dark: #1a2e2d;
+    --mid: #4a6360;
+    --soft: #f4f9f8;
+    --border: #d0e4e2;
+    --white: #ffffff;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    background: var(--dark);
+    color: var(--dark);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Ambient background */
+  .bg-ambient {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background: var(--dark);
+    overflow: hidden;
+  }
+
+  .bg-ambient::before {
+    content: '';
+    position: absolute;
+    top: -20%; left: -10%;
+    width: 60%; height: 60%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,140,130,0.18) 0%, transparent 65%);
+    animation: float1 12s ease-in-out infinite;
+  }
+
+  .bg-ambient::after {
+    content: '';
+    position: absolute;
+    bottom: -20%; right: -10%;
+    width: 50%; height: 50%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(212,175,80,0.1) 0%, transparent 65%);
+    animation: float2 15s ease-in-out infinite;
+  }
+
+  @keyframes float1 {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(3%, 4%); }
+  }
+
+  @keyframes float2 {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(-3%, -3%); }
+  }
+
+  /* Main wrapper */
+  .wrapper {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 20px;
+  }
+
+  /* Card */
+  .card {
+    background: rgba(255,255,255,0.97);
+    border-radius: 16px;
+    width: 100%;
+    max-width: 620px;
+    overflow: hidden;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.05);
+  }
+
+  /* Card Header */
+  .card-header {
+    background: var(--dark);
+    padding: 28px 36px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card-header::after {
+    content: '';
+    position: absolute;
+    top: -30px; right: -30px;
+    width: 140px; height: 140px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,140,130,0.25) 0%, transparent 70%);
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .brand-mark {
+    width: 34px; height: 34px;
+    background: var(--teal);
+    border-radius: 3px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    color: white;
+    font-weight: 600;
+  }
+
+  .brand-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    color: rgba(255,255,255,0.85);
+    letter-spacing: 0.3px;
+  }
+
+  .brand-sub {
+    font-size: 10px;
+    color: rgba(0,140,130,0.8);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 400;
+    margin-top: 1px;
+  }
+
+  /* Progress bar */
+  .progress-wrap {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 4px;
+  }
+
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+
+  .progress-text {
+    font-size: 11px;
+    color: rgba(255,255,255,0.45);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .progress-step {
+    font-size: 11px;
+    color: var(--gold);
+    letter-spacing: 1px;
+    font-weight: 500;
+  }
+
+  .progress-track {
+    height: 2px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(to right, var(--teal), var(--gold));
+    border-radius: 2px;
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Card body */
+  .card-body {
+    padding: 36px;
+    min-height: 340px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Screen */
+  .screen {
+    display: none;
+    flex-direction: column;
+    flex: 1;
+    animation: fadeUp 0.4s ease forwards;
+  }
+
+  .screen.active {
+    display: flex;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Question */
+  .q-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--teal);
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+
+  .q-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 500;
+    color: var(--dark);
+    line-height: 1.3;
+    margin-bottom: 8px;
+  }
+
+  .q-sub {
+    font-size: 13px;
+    color: var(--mid);
+    margin-bottom: 28px;
+    font-weight: 300;
+    line-height: 1.6;
+  }
+
+  /* Option cards */
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+  }
+
+  .option {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: white;
+    text-align: left;
+  }
+
+  .option:hover {
+    border-color: var(--teal);
+    background: var(--teal-light);
+    transform: translateX(4px);
+  }
+
+  .option.selected {
+    border-color: var(--teal);
+    background: var(--teal-light);
+  }
+
+  .option-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--soft);
+    border-radius: 8px;
+  }
+
+  .option-text {
+    flex: 1;
+  }
+
+  .option-title {
+    font-size: 14.5px;
+    font-weight: 500;
+    color: var(--dark);
+    line-height: 1.3;
+  }
+
+  .option-desc {
+    font-size: 12px;
+    color: var(--mid);
+    margin-top: 2px;
+    font-weight: 300;
+  }
+
+  .option-check {
+    width: 20px; height: 20px;
+    border: 1.5px solid var(--border);
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    font-size: 11px;
+    color: transparent;
+  }
+
+  .option.selected .option-check {
+    background: var(--teal);
+    border-color: var(--teal);
+    color: white;
+  }
+
+  /* Nav buttons */
+  .nav {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 28px;
+    gap: 10px;
+  }
+
+  .btn {
+    padding: 12px 28px;
+    border-radius: 6px;
+    font-family: 'Jost', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    letter-spacing: 0.3px;
+  }
+
+  .btn-primary {
+    background: var(--teal);
+    color: white;
+  }
+
+  .btn-primary:hover { background: var(--teal-dark); transform: translateY(-1px); }
+  .btn-primary:disabled { background: var(--border); color: #aaa; cursor: not-allowed; transform: none; }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--mid);
+    border: 1.5px solid var(--border);
+  }
+
+  .btn-ghost:hover { border-color: var(--teal); color: var(--teal); }
+
+  /* Intro screen */
+  .intro-icon {
+    font-size: 48px;
+    margin-bottom: 20px;
+  }
+
+  .intro-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 500;
+    color: var(--dark);
+    line-height: 1.25;
+    margin-bottom: 12px;
+  }
+
+  .intro-title em { color: var(--teal); font-style: italic; }
+
+  .intro-body {
+    font-size: 15px;
+    color: var(--mid);
+    line-height: 1.75;
+    font-weight: 300;
+    margin-bottom: 28px;
+  }
+
+  .intro-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 28px;
+  }
+
+  .pill {
+    padding: 5px 14px;
+    background: var(--teal-light);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    font-size: 12px;
+    color: var(--teal-dark);
+    font-weight: 500;
+  }
+
+  /* Name screen */
+  .name-input-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+
+  .name-input-wrap label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--mid);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .name-input-wrap input {
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-family: 'Jost', sans-serif;
+    font-size: 16px;
+    color: var(--dark);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background: white;
+  }
+
+  .name-input-wrap input:focus {
+    border-color: var(--teal);
+    box-shadow: 0 0 0 3px rgba(0,140,130,0.08);
+  }
+
+  /* Result screen */
+  .result-header {
+    text-align: center;
+    padding: 8px 0 24px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 24px;
+  }
+
+  .result-icon { font-size: 44px; margin-bottom: 12px; }
+
+  .result-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 500;
+    color: var(--dark);
+    line-height: 1.25;
+    margin-bottom: 8px;
+  }
+
+  .result-title em { color: var(--teal); font-style: italic; }
+
+  .result-subtitle {
+    font-size: 14px;
+    color: var(--mid);
+    font-weight: 300;
+    line-height: 1.6;
+  }
+
+  .result-insights {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+
+  .insight {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 16px;
+    background: var(--soft);
+    border-radius: 10px;
+    border: 1px solid var(--border);
+  }
+
+  .insight-icon {
+    font-size: 18px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .insight-text {
+    font-size: 14px;
+    color: var(--dark);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  .insight-text strong {
+    display: block;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--teal-dark);
+    margin-bottom: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .result-cta {
+    background: var(--dark);
+    border-radius: 10px;
+    padding: 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .result-cta::before {
+    content: '';
+    position: absolute;
+    top: -20px; right: -20px;
+    width: 100px; height: 100px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,140,130,0.2) 0%, transparent 70%);
+  }
+
+  .result-cta p {
+    font-size: 14px;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.7;
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 1;
+    font-weight: 300;
+  }
+
+  .result-cta-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    color: white;
+    margin-bottom: 4px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .result-cta-contact {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+  }
+
+  .result-cta-contact a {
+    color: var(--gold);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  /* Sending state */
+  .sending-msg {
+    text-align: center;
+    padding: 20px 0;
+    font-size: 14px;
+    color: var(--mid);
+    font-weight: 300;
+  }
+
+  /* Card footer */
+  .card-footer {
+    padding: 16px 36px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--soft);
+  }
+
+  .footer-brand {
+    font-size: 12px;
+    color: var(--mid);
+  }
+
+  .footer-secure {
+    font-size: 11px;
+    color: #aaa;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  @media (max-width: 480px) {
+    .card-body { padding: 24px 20px; }
+    .card-header { padding: 22px 20px 18px; }
+    .card-footer { padding: 14px 20px; }
+    .q-text { font-size: 22px; }
+    .intro-title { font-size: 26px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-ambient"></div>
+
+<div class="wrapper">
+  <div class="card">
+
+    <!-- Header -->
+    <div class="card-header">
+      <div class="brand">
+        <div class="brand-mark">V</div>
+        <div>
+          <div class="brand-name">Verandah Properties</div>
+          <div class="brand-sub">Lake Nona · Orlando</div>
+        </div>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-label">
+          <span class="progress-text">Your Journey</span>
+          <span class="progress-step" id="stepLabel">Getting Started</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div class="card-body">
+
+      <!-- Screen 0: Intro -->
+      <div class="screen active" id="screen-0">
+        <div class="intro-icon">🏡</div>
+        <div class="intro-title">Let's figure out what's<br><em>right for you.</em></div>
+        <p class="intro-body">Thinking about renting your property but not sure where to start — or whether a property manager is even the right move? You're in the right place.<br><br>This short guide takes about two minutes. No typing required — just click through a few questions and we'll give you a personalized picture of your options.</p>
+        <div class="intro-pills">
+          <span class="pill">7 quick questions</span>
+          <span class="pill">No commitment</span>
+          <span class="pill">Personalized result</span>
+          <span class="pill">Your answers stay private</span>
+        </div>
+        <div class="nav">
+          <button class="btn btn-primary" onclick="startGuide()">Let's Begin →</button>
+        </div>
+      </div>
+
+      <!-- Screen 1: Name -->
+      <div class="screen" id="screen-1">
+        <div class="q-label">First, a quick introduction</div>
+        <div class="q-text">What's your first name?</div>
+        <p class="q-sub">We'll personalize your results for you.</p>
+        <div class="name-input-wrap">
+          <label>First Name</label>
+          <input type="text" id="nameInput" placeholder="e.g. Sarah" oninput="checkName()">
+        </div>
+        <div class="nav">
+          <button class="btn btn-primary" id="nameNext" onclick="nextFromName()" disabled>Continue →</button>
+        </div>
+      </div>
+
+      <!-- Screen 2: Situation -->
+      <div class="screen" id="screen-2">
+        <div class="q-label">Question 1 of 7</div>
+        <div class="q-text">What best describes your situation?</div>
+        <p class="q-sub">This helps us understand where you're coming from.</p>
+        <div class="options" id="opts-2">
+          <div class="option" onclick="selectOption(this, 2, 'relocating')" data-val="relocating">
+            <div class="option-icon">✈️</div>
+            <div class="option-text">
+              <div class="option-title">I'm relocating</div>
+              <div class="option-desc">Moving away but keeping the property</div>
+            </div>
+            <div class="option-check">✓</div>
+          </div>
+          <div class="option" onclick="selectOption(this, 2, 'accidental-landlord')" data-val="accidental-landlord">
+            <div class="option-icon">🔑</div>
+            <div class="option-text">
+              <div class="option-title">I became a landlord unexpectedly</div>
+              <div class="option-desc">Inherited, gifted, or life changed direction</div>
+            </div>
+            <div class="option-check">✓</div>
+          </div>
+          <div class="option" onclick="selectOption(this, 2, 'investment')" data-val="investment">
+            <div class="option-icon">📈</div>
+            <div class="option-text">
+              <div class="option-title">This is a planned investment</div>
+              <div class="option-desc">I purchased with renting in mind</div>
+            </div>
+            <div class="option-check">✓</div>
+          </div>
+          <div class="option" onclick="selectOption(this, 2, 'not-sure')" data-val="not-sure">
+            <div class="option-icon">🤔</div>
+            <div class="option-text">
+              <div class="option-title">Still figuring it out</div>
+              <div class="option-desc">I'm exploring my options</div>
+            </div>
+            <div class="option-check">✓</div>
+          </div>
+        </div>
+        <div class="nav">
+          <button class="btn btn-ghost" onclick="goBack(2)">← Back</button>
+          <button class="btn btn-primary" id="next-2" onclick="goNext(2)" disabled>Continue →</button>
+        </div>
+      </div>
+
+      <!-- Screen 3: Primary Goal -->
+      <div class="screen" id="screen-3">
+        <div class="q-label">Question 2 of 7</div>
+        <div class="q-text">What's your primary goal for this property?</div>
+        <p class="q-sub">Be honest — there's no wrong answer here.</p>
+        <div class="options" id="opts-3">
+          <div class="option" onclick="selectOption(this, 3, 'cash-flow')" data-val="cash-flow">
+            <div class="option-icon">💰</div>
+            <div class="option-text">
+              <div class="option-title">Generate meaningful cash flow</div>
+              <div class="option-desc">I want this to add to my monthly income</div>
+            </div>
+            <div class="option-check">✓</div>
+          </div>
+          <div class="option" onclick="selectOption(this, 3, 'cover-mortgage')" data-val="cover-mortgage">
+            <div class="option-icon">🏦</div>
+            <div class="option-text">
+              <div class="option-title">Just cover the mortgage</div>
+              <div class="option-desc">Break even while the property appreciates</div>
+            </div>
+            <div class="option-check">✓</div>
+          </div>
+          <div class="option" onclick="selectOption(this, 3, 'appreciation')" data-val="appreciation">
+            <div class="option-icon">📊</div>
+            <div class="option-text">
+              <div class="option-title">Long-term appreciation</div>
+              <div class="option-desc">Building wealth over time is the priority</div>
+            </div>
+            <div class="option-check">✓</div>
+          </div>
+          <div class="option" onclick="selectOption(this, 3, 'not-sure-goal')" data-val="not-sure-goal">
+            <div class="option-icon">🧭</div>
+            <div class="option-text">
+              <div class="option-title">I'm not sure yet</div>
+              <div class="option-desc">I'd love guidance on what's realistic</div>
+            </div>
+            <div class="option-check">✓</div>
+          </div>
+        </div>
+        <div class="nav">
+          <button class="btn btn-ghost" onclick="goBack(3)">← Back</button>
+          <button class="btn btn-primary" id="next-3" onclick="goNext(3)" disabled>Continue →</button>
+        </div>
+      </div>
+
+      <!-- Screen 4: Involvement -->
+      <div class="screen" id="screen-4">
+        <div class="q-label">Question 3 of 7</div>
+        <div class="q-text">How involved do you want to be day to day?</div>
+        <p class="q-sub">Be realistic — this is about your lifestyle, not just your preference.</p>
+        <div class="options" id="opts-4">
+          <div class="option" onclick="selectOption(this, 4, 'hands-off')" data-val="hands-off">
+            <div class="option-icon">🧘</div>
+            <div class="option-text">
+              <div class="option-title">Fully hands-off</div>
+              <div class="option-desc">I want true passive income — handle everything</div>
+            </div>
+            <div class="option-check">✓</div>
+          </div>
+          <div class="option" onclick="selectOption(this, 4, 'occasional')" data-val="occasional">
+            <div class="option-icon">📬</div>
+            <div class="option-text">
+              <div class="option-title">Occasional check-ins are fine</div>
+              <div class="option-desc">Keep me informed but don't need details</div>
+            </div>
+            <div class="option-check">✓</div>
+          </div>
+          <div class="option" onclick="selectOption(this, 4, 'involved')" data-val="involved">
+            <div class="option-icon">🙋</div>
+            <div class="option-text">
+              <div class="option-title">I want to be involved</div>
+              <div class="option-desc">I like knowing what's happening at my property</div>
+            </div>
+            <div class="option-check">✓</div>
+          </div>
+        </div>
+        <div class="nav">
+          <button class="btn btn-ghost" onclick="goBack(4)">← Back</button>
+          <button class="btn btn-primary" id="next-4" onclick="goNext(4)" disabled>Continue →</button>
+        </div>
+      </div>
+
+      <!-- Screen 5: Self-managing concern -->
+      <div class="screen" id="screen-5">
+        <div class="q-label">Question 4 of 7</div>
+        <div class="q-text">What concerns you most about managing it yourself?</div>
+        <p class="q-sub">Select the one that feels most real to you.</p>
+        <div class="options" id="opts-5">
+          <div class="option" onclick="selectOption(this, 5, 'finding-tenants')" data-val="finding-tenants">
+            <div class="option-icon">🔍</div>
+            <div class="option-text">
+              <div class="option-title">Finding and screening good tenants</div>
+              <div class="option-desc">I don't know how to vet people properly</div>
+            </div>
+            <div class="option-check">✓</div>
+          </div>
+          <div class="option" onclick="selectOption(this, 5, 'legal-liability')" data-val="legal-liability">
+            <div class="option-icon">⚖️</div>
+            <div class="option-text">
+              <div class="option-title">Legal exposure and liability</div>
+              <div class="option-desc">I don't know what I don't know legally</div>
+            </div>
+            <div class="option-check">✓</div>
+          </div>
+          <div class="option" onclick="selectOption(this, 5, 'maintenance')" data-val="maintenance">
+            <div class="option-icon">🔧</div>
+            <div class="option-text">
+              <div class="option-title">Managing repairs and maintenance</div>
+              <div class="option-desc">I don't have vendor relationships or bandwidth</div>
+            </div>
+            <div class="option-check">✓</div>
+          </div>
+          <div class="option" onclick="selectOption(this, 5, 'time')" data-val="time">
+            <div class="option-icon">⏰</div>
+            <div class="option-text">
+              <div class="option-title">Time — I simply don't have enough of it</div>
+              <div class="option-desc">My life doesn't have room for landlord duties</div>
+            </div>
+            <div class="option-check">✓</div>
+          </div>
+          <div class="option" onclick="selectOption(this, 5, 'all-of-it')" data-val="all-of-it">
+            <div class="option-icon">😅</div>
+            <div class="option-text">
+              <div class="option-title">All of the above honestly</div>
+              <div class="option-desc">The whole picture feels overwhelming</div>
+            </div>
+            <div class="option-check">✓</div>
+          </div>
+        </div>
+        <div class="nav">
+          <button class="btn btn-ghost" onclick="goBack(5)">← Back</button>
+          <button class="btn btn-primary" id="next-5" onclick="goNext(5)" disabled>Continue →</button>
+        </div>
+      </div>
+
+      <!-- Screen 6: PM concern -->
+      <div class="screen" id="screen-6">
+        <div class="q-label">Question 5 of 7</div>
+        <div class="q-text">What concerns you most about hiring a property manager?</div>
+        <p class="q-sub">We'd rather know than guess.</p>
+        <div class="options" id="opts-6">
+          <div class="option" onclick="selectOption(this, 6, 'cost')" data-val="cost">
+            <div class="option-icon">💸</div>
+            <div class="option-text">
+              <div class="option-title">The cost — will it eat my returns?</div>
+              <div class="option-desc">I'm not sure the math works in my favor</div>
+            </div>
+            <div class="option-check">✓</div>
+          </div>
+          <div class="option" onclick="selectOption(this, 6, 'control')" data-val="control">
+            <div class="option-icon">🎛️</div>
+            <div class="option-text">
+              <div class="option-title">Losing control of my property</div>
+              <div class="option-desc">I'm not comfortable handing over decisions</div>
+            </div>
+            <div class="option-check">✓</div>
+          </div>
+          <div class="option" onclick="selectOption(this, 6, 'trust')" data-val="trust">
+            <div class="option-icon">🤝</div>
+            <div class="option-text">
+              <div class="option-title">Trust — how do I know they'll care?</div>
+              <div class="option-desc">I worry about finding someone I can rely on</div>
+            </div>
+            <div class="option-check">✓</div>
+          </div>
+          <div class="option" onclick="selectOption(this, 6, 'not-sure-need')" data-val="not-sure-need">
+            <div class="option-icon">🧩</div>
+            <div class="option-text">
+              <div class="option-title">I'm not sure I even need one</div>
+              <div class="option-desc">My property might be manageable on my own</div>
+            </div>
+            <div class="option-check">✓</div>
+          </div>
+        </div>
+        <div class="nav">
+          <button class="btn btn-ghost" onclick="goBack(6)">← Back</button>
+          <button class="btn btn-primary" id="next-6" onclick="goNext(6)" disabled>Continue →</button>
+        </div>
+      </div>
+
+      <!-- Screen 7: Success -->
+      <div class="screen" id="screen-7">
+        <div class="q-label">Question 6 of 7</div>
+        <div class="q-text">What does success look like in year one?</div>
+        <p class="q-sub">Pick the one that resonates most.</p>
+        <div class="options" id="opts-7">
+          <div class="option" onclick="selectOption(this, 7, 'great-tenant')" data-val="great-tenant">
+            <div class="option-icon">⭐</div>
+            <div class="option-text">
+              <div class="option-title">A great tenant who respects my property</div>
+              <div class="option-desc">Quality matters more than anything else</div>
+            </div>
+            <div class="option-check">✓</div>
+          </div>
+          <div class="option" onclick="selectOption(this, 7, 'consistent-income')" data-val="consistent-income">
+            <div class="option-icon">📅</div>
+            <div class="option-text">
+              <div class="option-title">Consistent, on-time rent payments</div>
+              <div class="option-desc">Reliable income I can count on every month</div>
+            </div>
+            <div class="option-check">✓</div>
+          </div>
+          <div class="option" onclick="selectOption(this, 7, 'no-stress')" data-val="no-stress">
+            <div class="option-icon">😌</div>
+            <div class="option-text">
+              <div class="option-title">Zero stress — I don't want to think about it</div>
+              <div class="option-desc">Peace of mind is the most valuable outcome</div>
+            </div>
+            <div class="option-check">✓</div>
+          </div>
+          <div class="option" onclick="selectOption(this, 7, 'all-three')" data-val="all-three">
+            <div class="option-icon">🏆</div>
+            <div class="option-text">
+              <div class="option-title">All three — is that too much to ask?</div>
+              <div class="option-desc">I want the complete picture</div>
+            </div>
+            <div class="option-check">✓</div>
+          </div>
+        </div>
+        <div class="nav">
+          <button class="btn btn-ghost" onclick="goBack(7)">← Back</button>
+          <button class="btn btn-primary" id="next-7" onclick="goNext(7)" disabled>Continue →</button>
+        </div>
+      </div>
+
+      <!-- Screen 8: Timeline -->
+      <div class="screen" id="screen-8">
+        <div class="q-label">Question 7 of 7</div>
+        <div class="q-text">When are you planning to rent?</div>
+        <p class="q-sub">This helps us give you relevant, timely information.</p>
+        <div class="options" id="opts-8">
+          <div class="option" onclick="selectOption(this, 8, 'under-3-months')" data-val="under-3-months">
+            <div class="option-icon">🚀</div>
+            <div class="option-text">
+              <div class="option-title">Within the next 3 months</div>
+              <div class="option-desc">I need to move quickly</div>
+            </div>
+            <div class="option-check">✓</div>
+          </div>
+          <div class="option" onclick="selectOption(this, 8, '3-6-months')" data-val="3-6-months">
+            <div class="option-icon">📆</div>
+            <div class="option-text">
+              <div class="option-title">3 to 6 months from now</div>
+              <div class="option-desc">Planning ahead but getting serious</div>
+            </div>
+            <div class="option-check">✓</div>
+          </div>
+          <div class="option" onclick="selectOption(this, 8, '6-12-months')" data-val="6-12-months">
+            <div class="option-icon">🗓️</div>
+            <div class="option-text">
+              <div class="option-title">6 to 12 months out</div>
+              <div class="option-desc">Still in the research phase</div>
+            </div>
+            <div class="option-check">✓</div>
+          </div>
+          <div class="option" onclick="selectOption(this, 8, 'just-exploring')" data-val="just-exploring">
+            <div class="option-icon">🌱</div>
+            <div class="option-text">
+              <div class="option-title">Just exploring for now</div>
+              <div class="option-desc">Not ready yet but want to be informed</div>
+            </div>
+            <div class="option-check">✓</div>
+          </div>
+        </div>
+        <div class="nav">
+          <button class="btn btn-ghost" onclick="goBack(8)">← Back</button>
+          <button class="btn btn-primary" id="next-8" onclick="submitGuide()" disabled>See My Results →</button>
+        </div>
+      </div>
+
+      <!-- Screen 9: Result -->
+      <div class="screen" id="screen-9">
+        <div class="result-header">
+          <div class="result-icon" id="resultIcon">✨</div>
+          <div class="result-title" id="resultTitle">Loading your results...</div>
+          <div class="result-subtitle" id="resultSubtitle"></div>
+        </div>
+        <div class="result-insights" id="resultInsights"></div>
+        <div class="result-cta">
+          <p id="resultCta">Pamela Syvertson has personally reviewed thousands of owner situations just like yours. She'd love to continue this conversation at whatever pace feels right for you.</p>
+          <div class="result-cta-name">Pamela Syvertson · Owner & Broker</div>
+          <div class="result-cta-contact">
+            <a href="tel:4078550331">(407) 855-0331</a>
+            <a href="https://VerandahProperties.com">VerandahProperties.com</a>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end card-body -->
+
+    <!-- Footer -->
+    <div class="card-footer">
+      <span class="footer-brand">Verandah Properties, LLC</span>
+      <span class="footer-secure">🔒 Your answers are private</span>
+    </div>
+
+  </div><!-- end card -->
+</div><!-- end wrapper -->
+
+<script>
+  let currentScreen = 0;
+  const totalSteps = 9; // 0=intro, 1=name, 2-8=questions, 9=result
+  const answers = {};
+
+  function updateProgress(screen) {
+    const fill = document.getElementById('progressFill');
+    const label = document.getElementById('stepLabel');
+    const labels = ['Getting Started','Your Name','Situation','Your Goals','Involvement','Self-Managing','Property Manager','Year One','Timeline','Your Results'];
+    const pct = screen === 0 ? 0 : Math.round((screen / 9) * 100);
+    fill.style.width = pct + '%';
+    label.textContent = labels[screen] || 'Your Results';
+  }
+
+  function showScreen(n) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('screen-' + n).classList.add('active');
+    currentScreen = n;
+    updateProgress(n);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function startGuide() { showScreen(1); }
+
+  function checkName() {
+    const val = document.getElementById('nameInput').value.trim();
+    document.getElementById('nameNext').disabled = val.length < 2;
+  }
+
+  function nextFromName() {
+    answers.name = document.getElementById('nameInput').value.trim();
+    // Update Q text to feel personal
+    showScreen(2);
+  }
+
+  function selectOption(el, screen, val) {
+    document.querySelectorAll('#opts-' + screen + ' .option').forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+    answers['q' + (screen - 1)] = val;
+    answers['q' + (screen - 1) + '_label'] = el.querySelector('.option-title').textContent;
+    const nextBtn = document.getElementById('next-' + screen);
+    if (nextBtn) nextBtn.disabled = false;
+  }
+
+  function goNext(screen) {
+    showScreen(screen + 1);
+  }
+
+  function goBack(screen) {
+    showScreen(screen - 1);
+  }
+
+  function buildResult() {
+    const name = answers.name || 'there';
+    const involvement = answers.q3;
+    const pmConcern = answers.q5;
+    const selfConcern = answers.q4;
+    const timeline = answers.q7;
+    const goal = answers.q2;
+    const success = answers.q6;
+
+    // Determine primary persona
+    let icon = '✨';
+    let title = `${name}, here's what your answers tell us.`;
+    let subtitle = '';
+    let insights = [];
+    let cta = '';
+
+    // Timeline insight
+    if (timeline === 'under-3-months') {
+      subtitle = "Your timeline is short — which means clarity now is critical.";
+      insights.push({ icon: '⏱️', title: 'Time Is a Factor', text: 'With a 3-month window, the decisions you make in the next few weeks will directly affect your first tenant experience. Getting the pricing, marketing, and screening right from day one is essential — there\'s little room to course-correct once a lease is signed.' });
+    } else if (timeline === '6-12-months' || timeline === 'just-exploring') {
+      subtitle = "You have time to do this right — and that's actually an advantage.";
+      insights.push({ icon: '🌱', title: 'Your Timeline Is a Gift', text: 'Being 6–12 months out means you can educate yourself thoroughly, understand the market, and make a fully informed decision without pressure. Most owners who struggle did so because they moved too fast. You don\'t have to.' });
+    } else {
+      subtitle = "You're in the planning phase — exactly the right time to get informed.";
+      insights.push({ icon: '📆', title: 'Planning Ahead Pays Off', text: 'Owners who research their options 3–6 months out consistently have better outcomes — better tenants, better pricing, fewer surprises. You\'re already ahead of most people by asking these questions now.' });
+    }
+
+    // Involvement vs self-managing
+    if (involvement === 'hands-off' || involvement === 'occasional') {
+      insights.push({ icon: '💡', title: 'Your Lifestyle Points Toward Management', text: `You've told us you want to be ${involvement === 'hands-off' ? 'fully hands-off' : 'minimally involved'}. Self-managing a property is a part-time job — tenant calls, maintenance coordination, legal compliance, accounting. Professional management exists precisely to give you your time back while your asset continues to work for you.` });
+    } else {
+      insights.push({ icon: '🙋', title: 'Your Involvement Preference Is Valid', text: 'Wanting to stay involved in your property is completely understandable — it\'s yours. A good property manager doesn\'t eliminate your involvement; they elevate it. You stay informed on the things that matter without being consumed by the things that don\'t.' });
+    }
+
+    // Self-managing concern
+    if (selfConcern === 'legal-liability' || selfConcern === 'all-of-it') {
+      insights.push({ icon: '⚖️', title: 'The Legal Side Is Real', text: 'Florida landlord law is detailed and actively enforced. Tenant liability claims have increased significantly — and personal injury attorneys work on contingency, meaning it costs a tenant nothing to file a claim. What protects you is documentation, proactive maintenance, and knowing the law. This is what professional management provides.' });
+    } else if (selfConcern === 'finding-tenants') {
+      insights.push({ icon: '🔍', title: 'Tenant Quality Is Everything', text: 'The single most important decision you will make as a landlord is who you put in your property. A bad tenant costs more in stress, legal fees, and property damage than a full year of management fees. Rigorous screening — income verification, credit review, rental history, background checks — is not optional. It is the foundation.' });
+    } else if (selfConcern === 'time') {
+      insights.push({ icon: '⏰', title: 'Time Is Your Most Valuable Asset', text: 'The hidden cost of self-management is rarely the money — it\'s the hours. Tenant calls at 10pm, maintenance coordination, lease renewals, legal compliance. These don\'t stop on weekends or holidays. Before choosing to self-manage, be honest about what your time is worth and what you\'re trading away.' });
+    }
+
+    // PM concern
+    if (pmConcern === 'cost') {
+      insights.push({ icon: '📊', title: 'The Math Matters — Here\'s How to Think About It', text: 'Management fees are often a fraction of what a single vacancy, bad tenant, or legal misstep would cost. A well-managed property leases faster, retains better tenants, and experiences fewer expensive surprises. The question isn\'t what management costs — it\'s what the alternative costs over time.' });
+    } else if (pmConcern === 'trust') {
+      insights.push({ icon: '🤝', title: 'Trust Is Earned, Not Assumed', text: 'You\'re right to think carefully about who you partner with. At Verandah, we\'re selective about the owners we take on — because we believe the right relationship is built on alignment, not just a contract. We\'d rather have an honest conversation about fit than sign an agreement that doesn\'t serve you well.' });
+    } else if (pmConcern === 'control') {
+      insights.push({ icon: '🎛️', title: 'You Don\'t Lose Control — You Gain Leverage', text: 'A professional property manager doesn\'t replace your ownership — they amplify it. You set the direction, we execute. Decisions that matter come to you. Day-to-day operations don\'t. That\'s not losing control. That\'s running a business intelligently.' });
+    }
+
+    // Success aspiration
+    if (success === 'no-stress' || success === 'all-three') {
+      cta = `${name}, peace of mind is not an accident — it's the result of the right systems, the right people, and the right partner. That's exactly what Verandah was built to provide. We'd love to continue this conversation whenever you're ready.`;
+    } else if (success === 'great-tenant') {
+      cta = `${name}, tenant quality is our obsession too. Our screening process is one of the most rigorous in the market — and we report every payment to Experian, which keeps everyone accountable. We'd love to tell you more whenever you're ready.`;
+    } else {
+      cta = `${name}, consistent income starts with the right tenant, the right price, and the right management. Verandah has been delivering that in the Orlando market for over 20 years. We'd love to continue this conversation whenever you're ready.`;
+    }
+
+    // Build result screen
+    document.getElementById('resultIcon').textContent = icon;
+    document.getElementById('resultTitle').innerHTML = title.replace(name + ',', `${name},<br>`);
+    document.getElementById('resultSubtitle').textContent = subtitle;
+    document.getElementById('resultCta').textContent = cta;
+
+    const insightContainer = document.getElementById('resultInsights');
+    insightContainer.innerHTML = '';
+    insights.forEach(ins => {
+      insightContainer.innerHTML += `
+        <div class="insight">
+          <div class="insight-icon">${ins.icon}</div>
+          <div class="insight-text"><strong>${ins.title}</strong>${ins.text}</div>
+        </div>`;
+    });
+  }
+
+  async function submitGuide() {
+    buildResult();
+    showScreen(9);
+
+    // Send to Formspree
+    const payload = {
+      'Name': answers.name,
+      'Situation': answers.q1_label || answers.q1,
+      'Primary Goal': answers.q2_label || answers.q2,
+      'Desired Involvement': answers.q3_label || answers.q3,
+      'Self-Managing Concern': answers.q4_label || answers.q4,
+      'Property Manager Concern': answers.q5_label || answers.q5,
+      'Success in Year One': answers.q6_label || answers.q6,
+      'Rental Timeline': answers.q7_label || answers.q7,
+      '_subject': `New Owner Decision Guide — ${answers.name || 'Unknown'}`,
+    };
+
+    try {
+      await fetch('https://formspree.io/f/xnjozlap', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+    } catch(e) {
+      // Silent fail — result screen shows regardless
+    }
+  }
+
+  // Enter key on name field
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && currentScreen === 1) {
+      const btn = document.getElementById('nameNext');
+      if (!btn.disabled) nextFromName();
+    }
+  });
+</script>
+</body>
+</html>
